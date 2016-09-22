@@ -97,11 +97,13 @@ db.demo.createIndex({"$**":"text"})    不同字段搜索相同内容
 
 ```
 栗子
+
+创建索引
 ```
 >db.demo.createIndex({"title":"text"})    
 ```
 插入数据
-```mongodb
+```
 >db.demo.insert({"title":"I love"})
 
 >db.demo.insert({"title":"I love you"})
@@ -109,6 +111,16 @@ db.demo.createIndex({"$**":"text"})    不同字段搜索相同内容
 >db.demo.insert({"title":"I love you,deg"})
 
 >db.demo.insert({"title":"I love you ,deg momoda"})
+```
+查询
+```
+db.demo.find({$text:{$search:"I"}})  包含 I
+
+db.demo.find({$text:{$search:"I love you"}})   包含 I love you 三个字符串之一
+
+db.demo.find({$text:{$search:"I love -you"}})  同时包含 I love 两个字符串之一 但不包含you
+
+db.demo.find({$text:{$search:" \"I\" \"love\" \"you\" "}})  同时包含 I love you 三个字符串 
 ```
 
 <h3>地理位置索引</h3>
