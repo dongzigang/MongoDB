@@ -81,7 +81,7 @@ db.demo.createIndex({time:1},expireAfterSounds:30)  30秒后删除索引
 ```
 
 <h3>全文索引</h3>
-3.2全文索引支持中文
+全文索引暂时不支持中文
 
 创建全文索引
 
