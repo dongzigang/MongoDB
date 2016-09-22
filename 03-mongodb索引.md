@@ -81,9 +81,34 @@ db.demo.createIndex({time:1},expireAfterSounds:30)  30秒后删除索引
 ```
 
 <h3>全文索引</h3>
+全文索引暂时不支持中文
+
+创建全文索引
+
+key:字段名
+
+value:固定字符串"text"
+```
+db.demo.createIndex({key:"text"})
+
+db.demo.createIndex({key_1:"text",key_2:"text"})
+
+db.demo.createIndex({"$**":"text"})    不同字段搜索相同内容
 
 ```
+栗子
+```
+>db.demo.createIndex({"title":"text"})    
+```
+插入数据
+```mongodb
+>db.demo.insert({"title":"I love"})
 
+>db.demo.insert({"title":"I love you"})
+
+>db.demo.insert({"title":"I love you,deg"})
+
+>db.demo.insert({"title":"I love you ,deg momoda"})
 ```
 
 <h3>地理位置索引</h3>
