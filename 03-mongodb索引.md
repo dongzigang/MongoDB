@@ -163,7 +163,7 @@ $text查询不能出现在$nor查询中
    
    3........
 
-<h4>2d索引</h4>
+<h3>2d索引</h3>
 创建
 ```
 db.demo.createIndex({"w":"2d"})
@@ -199,7 +199,7 @@ db.demo.insert({w:[123,45]})
 
 1.$box:矩形
   
-  {$box:[[<x1>,<y1>],[<x2>,<y2>]]}
+  {$box:[[<x1>,<y1>],[<x2>,<y2>]]}   两个坐标分别代表左上角及右下角坐标
 
 2.$center:圆形
   
@@ -210,7 +210,27 @@ db.demo.insert({w:[123,45]})
   {$polygon:[[<x1>,<y1>],[<x2>,<y2>],[<x3>,<y3>]]}
 
 ```
-db.demo.find({$box:[[<80>,<90>],[<100>,<120>]]})
+db.demo.find(w:{$geoWithin:{$box:[[0,0],[3,3]]}})  矩形
+
+db.demo.find(w:{$geoWithin:{$center:[[5,5],3]}})  圆形
+```
+<h4>geoNear</h4>
+
+geoNear查询
+
+geoNear使用runCommend命令进行使用，常用使用如下
+```
+db.runCommand(
+    {geoNear:<collection>,
+    near:[x,y],
+    minDistance:(对2d索引无效)
+    maxDistance:
+    num:   限制返回数目
+    }
+)
+```
+```
+bd.runCommand({geoNear:"demo",near:[1,2],maxDistance:10,num:2})
 ```
 
 <h3>索引属性</h3>
