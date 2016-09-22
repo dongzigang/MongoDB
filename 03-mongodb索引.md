@@ -232,6 +232,14 @@ db.runCommand(
 ```
 bd.runCommand({geoNear:"demo",near:[1,2],maxDistance:10,num:2})
 ```
+<h4> 2dsphere索引</h4>
+球面地理位置索引
+
+```
+db.demo.createIndex({w:"2dsphere"})
+```
+
+
 
 <h3>索引属性</h3>
 比较重要的属性有：
