@@ -81,7 +81,7 @@ db.demo.createIndex({time:1},expireAfterSounds:30)  30秒后删除索引
 ```
 
 <h3>全文索引</h3>
-全文索引暂时不支持中文
+3.2全文索引支持中文
 
 创建全文索引
 
@@ -122,6 +122,30 @@ db.demo.find({$text:{$search:"I love -you"}})  同时包含 I love 两个字符�
 
 db.demo.find({$text:{$search:" \"I\" \"love\" \"you\" "}})  同时包含 I love you 三个字符串 
 ```
+<h4>全文索引相似度查询</h4>
+```
+>db.demo.find({$text:{$search:"I"}},{score:{$meta:"textScore"}})
+
+{ "_id" : ObjectId("561b2efa1d7564ee57e78246"), "title" : "I", "score" : 1.875 }
+
+{ "_id" : ObjectId("561b2f021d7564ee57e78247"), "tiele" : "I love you", "score" : 1.25 }
+```
+<h4>按照相似度排序</h4>
+```
+>db.demo.find({$text:{$search:"I"}},{score:{$meta:"textScore"}}).sort({score:{$meta:"textScore"}})
+
+{ "_id" : ObjectId("561b2efa1d7564ee57e78246"), "title" : "I", "score" : 1.875 }
+
+{ "_id" : ObjectId("561b2f021d7564ee57e78247"), "tiele" : "I love you", "score" : 1.25 }
+```
+<h4>全文索引使用的限制</h4>
+
+每次只能指定一个$text查询
+
+$text查询不能出现在$nor查询中
+
+查询中如果包含了$text，强制查询hint就不再起作用
+
 
 <h3>地理位置索引</h3>
 
