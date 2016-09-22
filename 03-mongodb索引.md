@@ -73,7 +73,7 @@ sb.demo.find({name:"deg",sex:"man"})
 
 删除时间是不精确的，删除过程由后台程序60s跑一次，而且删除也需要一些时间，蓑衣存在误差
 ```
-db.demo.createIndex({time:1},expireAfterSounds:30)  30秒后删除索引
+db.demo.createIndex({time:new Date()},expireAfterSounds:30)  指定30秒后删除索引
 
 >db.demo.insert({time:new Date()})  大概60秒左右被删除
 
@@ -153,12 +153,63 @@ $text查询不能出现在$nor查询中
 
 ```
 
-<h3></h3>
+<h3>索引属性</h3>
+比较重要的属性有：
+
+名字 name
+
+在创建索引时monggodb会自动为索引创建一个名字键名下划线（key_1）
+
+如果想指定索引名如下
+```
+db.demo.createIndex({},{name:"xxx"})
+```
+在删除索引时也可以使用索引名
 
 ```
-
+db.demo.dropIndex("name_1");
 ```
 
+唯一性 unique
+
+```
+>db.demo.createIndex({m:1,n:1},{unique:ture})     创建唯一性索引
+>db.demo.insert({m:1,n:2})
+插入成功
+>db.demo.insert({m:1,n:2})
+插入失败（已经存在插入有，不存在不插入）
+```
+
+稀疏性   sparse
+
+假如集合文档中不包含x字段，而你创建了一个x字段上的索引，在默认情况下，该索引会被创建，如果使用了sparse:ture则不会被创建，这样就节省了资源
+```
+db.demo.createIndex({},{sparse:ture})
+```
+栗子
+
+```
+>db.demo.insert({m:1})
+
+>db.demo.insert({n:1})
+
+>db.demo.find({m:{$exists:true}})    查找存在m字段的文档
+查找出第一条插入的数据
+
+db.demo.createIndex({m:1},{sparse:ture}) 创建m字段稀疏性索引
+
+>db.demo.find({m:{$exists:false}}) 
+查找出了  n   字段，因为用的不是m字段稀疏性索引
+
+>db.demo.find({m:{$exists:false}}) .hint("m_1")  强制使用m字段稀疏性索引
+没有返回内容
+```
+
+过期索引 expireAfterSounds  
+
+```
+db.demo.createIndex({time:new Date()},expireAfterSounds:30)
+```
 <h3></h3>
 
 ```
