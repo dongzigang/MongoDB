@@ -1,13 +1,14 @@
 <h2>mongodb索引</h2>
-<a href="#">索引</a>
-<a href="#">索引</a>
-<a href="#">索引</a>
-<a href="#">索引</a>
-<a href="#">索引</a>
-<a href="#">索引</a>
-<a href="#">索引</a>
-<a href="#"></a>
-<a href="#">索引</a>
+<p><a href="#a">id索引</a></p>
+<p><a href="#b">单键索引</a></p>
+<p><a href="#c">多键索引</a></p>
+<p><a href="#d">复合索引</a></p>
+<p><a href="#f">过期索引</a></p>
+<p><a href="#g">全文索引</a></p>
+<p><a href="#h">地理位置索引</a></p>
+<p><a href="#i">2d索引</a></p>
+<p><a href="#j"> 2dsphere索引</a></p>
+<p><a href="#j">索引属性</a></p>
 
 <h3>创建索引</h3>
 
@@ -21,7 +22,7 @@ db.collectionName.createIndexes([keypatterns], <options>)
  db.collectionName.dropIndex(index) 删除单个
  db.collectionName.dropIndexes()    删除所有
 ```
-<h3>_id索引</h3>
+<h3 id="a">_id索引</h3>
 _id索引是绝大多数集合默认创建的索引
 
 只要集合中有数据
@@ -30,13 +31,13 @@ db.collectionName.getIndexes()
 ```
 都会显示出_id索引
 
-<h3>单键索引</h3>
+<h3 id="b">单键索引</h3>
 
 ```
 db.collectionName.createIndex({x:1})
 ```
 
-<h3>多键索引</h3>
+<h3 id="c">多键索引</h3>
 
 栗子
 
@@ -59,7 +60,7 @@ db.inventory.find( { ratings: [ 5, 9 ] } )
 MongoDB 可以通过多键索引查找出 ratings 这个数组中任何位置包含有5这个元素的文档，然后，再检索这些文档，筛选出 ratings 的值完全等于 [5,9] 的这些文档。
 
 
-<h3>复合索引</h3>
+<h3 id="d">复合索引</h3>
 当我们查询条件不止一个时，就需要建立复合索引
 创建
 ```
@@ -70,7 +71,7 @@ db.demo.createIndex( { "name": 1, "sex": 1 } )
 sb.demo.find({name:"deg",sex:"man"})
 ```
 
-<h3>过期索引</h3>
+<h3 id="f">过期索引</h3>
 一段时间后会过期的索引，索引过期后，相应数据会被自动删除
 
 适合存储在一段时间后会失效的数据，比如用户登陆信息，存储日志
@@ -90,7 +91,7 @@ db.demo.createIndex({time:new Date()},expireAfterSounds:30)  指定30秒后删�
 >db.demo.insert({time:1})   不会被自动删除
 ```
 
-<h3>全文索引</h3>
+<h3 id="g">全文索引</h3>
 全文索引暂时不支持中文
 
 创建全文索引
@@ -157,7 +158,7 @@ $text查询不能出现在$nor查询中
 查询中如果包含了$text，强制查询hint就不再起作用
 
 
-<h3>地理位置索引</h3>
+<h3 id="h">地理位置索引</h3>
 
 概念：将一些点的位置存储在mongodb中，创建索引索引后可以按照位置来查找其他点
 
@@ -173,7 +174,7 @@ $text查询不能出现在$nor查询中
    
    3........
 
-<h3>2d索引</h3>
+<h3 id="i">2d索引</h3>
 创建
 ```
 db.demo.createIndex({"w":"2d"})
@@ -242,7 +243,7 @@ db.runCommand(
 ```
 bd.runCommand({geoNear:"demo",near:[1,2],maxDistance:10,num:2})
 ```
-<h4> 2dsphere索引</h4>
+<h4 id="j"> 2dsphere索引</h4>
 球面地理位置索引
 
 ```
@@ -350,7 +351,7 @@ db.demo.insert(
 
 支持$minDistance   $maxDistance
 
-<h3>索引属性</h3>
+<h3 id="K">索引属性</h3>
 比较重要的属性有：
 
 名字 name
