@@ -238,8 +238,107 @@ bd.runCommand({geoNear:"demo",near:[1,2],maxDistance:10,num:2})
 ```
 db.demo.createIndex({w:"2dsphere"})
 ```
+位置表示方式：
+
+GeoJSON：描述一个点，一条直线，多边形等形状
+
+格式
+
+```
+{ type: "<GeoJSON type>" , coordinates: <coordinates> }
+
+GeoJSON type:
+
+        Point                 点          
+        
+        { type: "Point", coordinates: [ 40, 5 ] }
+        LineString            线          
+        
+        { type: "LineString", coordinates: [ [ 40, 5 ], [ 41, 6 ] ] }
+        Polygon               多边形      
+        
+        { type: "Polygon",coordinates: [ [ [ 0 , 0 ] , [ 3 , 6 ] , [ 6 , 1 ] , [ 0 , 0  ] ] ]}
+        MultiPoint            多个点
+        
+        {
+           type: "MultiPoint",
+           coordinates: [
+              [ -73.9580, 40.8003 ],
+              [ -73.9498, 40.7968 ],
+              [ -73.9737, 40.7648 ],
+              [ -73.9814, 40.7681 ]
+           ]
+         }
+         
+         
+         
+         
+         
+         
+        MultiLineString       多线
+        
+        {
+          type: "MultiLineString",
+          coordinates: [
+             [ [ -73.96943, 40.78519 ], [ -73.96082, 40.78095 ] ],
+             [ [ -73.96415, 40.79229 ], [ -73.95544, 40.78854 ] ],
+             [ [ -73.97162, 40.78205 ], [ -73.96374, 40.77715 ] ],
+             [ [ -73.97880, 40.77247 ], [ -73.97036, 40.76811 ] ]
+          ]
+        }
+        
+        
+        
+        
+        MultiPolygon          多个多边形
+        {
+          type: "MultiPolygon",
+          coordinates: [
+             [ [ [ -73.958, 40.8003 ], [ -73.9498, 40.7968 ], [ -73.9737, 40.7648 ], [ -73.9814, 40.7681 ], [ -73.958, 40.8003 ] ] ],
+             [ [ [ -73.958, 40.8003 ], [ -73.9498, 40.7968 ], [ -73.9737, 40.7648 ], [ -73.958, 40.8003 ] ] ]
+          ]
+        }   
+        
+        
+        
+        
+        
+        
+        GeometryCollection   几何集合？
+        {
+         type: "GeometryCollection",
+         geometries: [
+            {
+              type: "MultiPoint",
+              coordinates: [
+                 [ -73.9580, 40.8003 ],
+                 [ -73.9498, 40.7968 ],
+                 [ -73.9737, 40.7648 ],
+                 [ -73.9814, 40.7681 ]
+              ]
+            },
+     
+     
+     
+
+```
+
+插入
+```
+db.demo.insert(
+   {
+      loc : { type: "Point", coordinates: [ -73.97, 40.77 ] },
+      name: "Central Park",
+      category : "Parks"
+   }
+)
 
 
+
+```
+查询方式
+
+支持$minDistance   $maxDistance
 
 <h3>索引属性</h3>
 比较重要的属性有：
