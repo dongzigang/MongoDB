@@ -9,6 +9,7 @@
 <p><a href="#i">2d索引</a></p>
 <p><a href="#j"> 2dsphere索引</a></p>
 <p><a href="#j">索引属性</a></p>
+<p><a href="#k">索引构建情况分析</a></p>
 
 <h3>创建索引</h3>
 
@@ -408,12 +409,24 @@ db.demo.createIndex({m:1},{sparse:ture}) 创建m字段稀疏性索引
 ```
 db.demo.createIndex({time:new Date()},expireAfterSounds:30)
 ```
-<h3></h3>
+<h3 id="k">索引构建情况分析</h3>
 
+优点：加快索引相关查询
+
+缺点：增加磁盘空间消耗，降低写入性能
+
+用mongostat分析
 ```
+E:
 
+cd mongodb/bin
+
+mongostat -h 127.0.0.1:27017
 ```
-
+explain操作
+```
+dn.demo.find({x:1}).explain()
+```
 <h3></h3>
 
 ```
