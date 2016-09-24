@@ -49,8 +49,9 @@ mongoose.model方法将格式分配给指定的数据集
 ```
 //把刚才定义的数据格式指向一个名叫user的集合collection
 var User = mongoose.model('User', userSchema);
-
-//创建一个Schema实例
+```
+//创建一个Schema实例(Entity)
+```
 var arvind = new User({
   name : 'Arvind',
   age : 99,
