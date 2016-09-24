@@ -111,6 +111,7 @@ var client_info=new mongoose.Schema({
 var client_info_model=db.model('client_collection',client_info);
 ```
 <br><br><br><br>
+<h4>基于Entity操作</h4>
 增加信息
 ```js
 //Entity
@@ -140,10 +141,7 @@ client_info_entity.save(function(error){
 client_info.methods.findByName=function(name,callback){
 	return this.model('client_collection').find({name:name},callback);
 }
-// 添加 mongoose 静态方法，静态方法在Model层就能使用
-client_info.statics.findByAge=function(age,callback){
-	return this.model('client_collection').find({age:age},callback);
-}
+
 //Entity
 var client_info_entity=new client_info_model({});
 client_info_entity.findByName('deg',function(error,result){
@@ -156,11 +154,103 @@ client_info_entity.findByName('deg',function(error,result){
 	db.close();
 })
 ```
+<h4>基于model的增加、修改与查询</h4>
 
+添加信息
+```js
+var doc={
+	name:'deg',
+	age:18,
+	birthday:1994,
+	address:'china',
+	phone:13202629601
+}
+client_info_model.create(doc,function(error){
+	if(error){
+		console.log(error);
+	}
+	else{
+		colsole.log('save success');
+	}
+	db.close();
+})
+```
+修改信息
+```js
+var conditions = {name : 'deg'};
+var update     = {$set : {age : 27, address:'english'}};
+var options    = {upsert : true};
+client_info_model.update(conditions, update, options, function(error){
+    if(error) {
+        console.log(error);
+    } else {
+        console.log('update ok!');
+    }
+    //关闭数据库链接
+    db.close();
+});
+```
+查询信息
 
+查询到的所有
+```js
+client_info_model.find(function(err,result){
 
+    if(error) {
+        console.log(error);
+    } else {
+        console.log(result);
+    }
+    //关闭数据库链接
+    db.close();
+});
+```
+```js
+// mongoose find
+var criteria = {title : 'emtity_demo_title'}; // 查询条件
+var fields   = {title : 1, content : 1, time : 1}; // 待返回的字段
+var options  = {};
+client_info_model.find(criteria, fields, options, function(error, result){
+    if(error) {
+        console.log(error);
+    } else {
+        console.log(result);
+    }
+    //关闭数据库链接
+    db.close();
+});
+```
+删除信息
+```js
+var conditions = {name: 'deg'};
+client_info_model.remove(conditions, function(error){
+    if(error) {
+        console.log(error);
+    } else {
+        console.log('delete ok!');
+    }
 
-
+    //关闭数据库链接
+    db.close();
+});
+```
+<h4>基于静态方法的查询</h4>
+```js
+// 添加 mongoose 静态方法，静态方法在Model层就能使用
+client_info.statics.findByAge=function(age,callback){
+	return this.model('client_collection').find({age:age},callback);
+}
+// 基于静态方法的查询
+client_info_model.findbytitle('emtity_demo_title', function(error, result){
+    if(error) {
+        console.log(error);
+    } else {
+        console.log(result);
+    }
+    //关闭数据库链接
+    db.close();
+});
+```
 
 
 
