@@ -17,7 +17,7 @@
   
   mongodb.config文件
   
-  mongodb.config文件内容如下
+  mongodb.config文件内容如下(注意里面的路径，装载不同的盘符路径不同)
   ```
   ##数据文件
   dbpath=E:\mongodb\data\db
@@ -54,7 +54,7 @@ mongodb默认连接端口27017，可以打开http://localhost:27017查看
 
 用管理员身份打开cmd命令行，进入E:\mongodb\bin目录，输入如下的命令：
 ```
-mongod --config E:\mongodb\mongo.config --install --serviceName "MongoDB"
+mongod --config E:\mongodb\mongodb.config --install --serviceName "MongoDB"
 ```
 7.启动
 
